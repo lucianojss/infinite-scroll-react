@@ -3,9 +3,10 @@ import { MESSAGE_LIST_ACTIONS } from '../actions/actions';
 const initialState = {
     messages: [],
     pageToken: null,
-    limit: 25,
+    limit: 20,
     loading: false,
-    error: null
+    error: null,
+    hasMore: true
 };
 
 export default (state = initialState, action) => {
@@ -16,17 +17,24 @@ export default (state = initialState, action) => {
                 loading: true
             };
         case MESSAGE_LIST_ACTIONS.GET_MESSAGES_SUCCESS:
+            const { messages, pageToken } = action.payload;
             return {
                 ...state,
                 loading: false,
                 error: null,
-                messages: action.messages,
-                pageToken: action.pageToken
+                messages: state.messages.concat(messages),
+                pageToken,
+                hasMore: pageToken ? true : false
             };
         case MESSAGE_LIST_ACTIONS.GET_MESSAGES_ERROR:
             return {
                 ...state,
                 error: action.payload
+            };
+        case MESSAGE_LIST_ACTIONS.DELETE_MESSAGE:
+            return {
+                ...state,
+                messages: state.messages.filter((message, index) => index !== action.payload)
             };
         default:
             return state;

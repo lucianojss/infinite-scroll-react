@@ -1,3 +1,3 @@
-import { getMessages } from './message-list.js';
+import { getMessages } from './message-list';
 
-describe('#getMessages', () => {});
+describe('#messageListAction', () => {});

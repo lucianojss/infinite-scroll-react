@@ -4,8 +4,9 @@ const API_URL = 'https://message-list.appspot.com';
 /**
  * Fetch a (nearly) endless stream of messages.
  *
- * @param {Number} limit
- * @param {String} pageToken
+ * @param {Number} limit - Limit of messages to be fetched (max 100)
+ * @param {String} pageToken - To get the next page token (null by default)
+ * @returns {Object} list of fetched messages
  */
 const getMessages = async (limit, pageToken = null) => {
     const url = new URL(`${API_URL}/messages`);
@@ -22,12 +23,13 @@ const getMessages = async (limit, pageToken = null) => {
         throw response;
     }
 
-    return jsonToMessage(await response.json());
+    return transformMessageList(await response.json());
 };
 
-function jsonToMessage(response) {
+const transformMessageList = response => {
     const { messages, pageToken, count } = response;
-    const messagesUpdated = messages.reduce((acc, message) => {
+
+    const transformedMessages = messages.reduce((acc, message) => {
         acc.push({
             author: { name: message.author.name, photoUrl: `${API_URL}${message.author.photoUrl}` },
             content: message.content,
@@ -37,7 +39,8 @@ function jsonToMessage(response) {
 
         return acc;
     }, []);
-    return { count, pageToken, messages: messagesUpdated };
-}
+
+    return { count, pageToken, messages: transformedMessages };
+};
 
 export { getMessages };
