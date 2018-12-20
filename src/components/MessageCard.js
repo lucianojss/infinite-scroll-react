@@ -9,31 +9,32 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import Draggable from 'react-draggable';
 
-const styles = theme => {
-    // console.log(theme);
-    return {
-        // card: {
-        //     marginBottom: 10
-        // }
-    };
-};
+const styles = theme => ({
+    card: {
+        marginLeft: 16,
+        marginRight: 16,
+        marginBottom: 8
+    },
+    avatar: {
+        paddingBottom: 0
+    }
+});
 
 const MessageCard = props => {
-    const { author, content, updated, style } = props;
+    const { author, content, updated, style, classes } = props;
 
     return (
-        <Draggable axis="x" defaultPosition={{ x: 0, y: 0 }}>
-            <Card style={style}>
-                <CardHeader
-                    avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
-                    title={author.name}
-                    subheader={moment(updated).fromNow()}
-                />
-                <CardContent>
-                    <Typography component="p">{content}</Typography>
-                </CardContent>
-            </Card>
-        </Draggable>
+        <Card className={classes.card} style={style}>
+            <CardHeader
+                className={classes.avatar}
+                avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
+                title={author.name}
+                subheader={moment(updated).fromNow()}
+            />
+            <CardContent>
+                <Typography variant="body2">{content}</Typography>
+            </CardContent>
+        </Card>
     );
 };
 
@@ -44,7 +45,8 @@ MessageCard.propTypes = {
         photoUrl: PropTypes.string
     }),
     updated: PropTypes.instanceOf(Date),
-    content: PropTypes.string
+    content: PropTypes.string,
+    onDelete: PropTypes.func
 };
 
-export default MessageCard;
+export default withStyles(styles)(MessageCard);

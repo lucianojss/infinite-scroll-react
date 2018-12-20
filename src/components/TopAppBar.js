@@ -17,7 +17,7 @@ const styles = {
 function TopAppBar(props) {
     const { classes } = props;
     return (
-        <AppBar position="static">
+        <AppBar position="fixed">
             <Toolbar>
                 <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                     <MenuIcon />

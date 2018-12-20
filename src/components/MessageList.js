@@ -39,20 +39,25 @@ export default function MessageList({
                     <CircularProgress color="secondary" />
                 </div>
             );
-        } else {
         }
+
         return <MessageCard style={style} key={index} {...items[index]} />;
     };
 
     return (
-        <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
+        <InfiniteLoader
+            style={{ height: '100%' }}
+            isItemLoaded={isItemLoaded}
+            itemCount={itemCount}
+            loadMoreItems={loadMoreItems}
+        >
             {({ onItemsRendered, ref }) => (
                 <List
-                    height={250}
+                    height={500}
                     itemCount={itemCount}
                     itemSize={index => {
                         // console.log(index);
-                        return 200;
+                        return 400;
                     }}
                     onItemsRendered={onItemsRendered}
                     ref={ref}

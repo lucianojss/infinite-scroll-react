@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TopAppBar from './components/TopAppBar.js';
 import MessageListContainer from './containers/MessageListContainer.js';
@@ -7,16 +7,14 @@ import configureStore from './store/store';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import theme from './theme/';
 
-class App extends Component {
+class App extends PureComponent {
     render() {
         return (
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
                 <Provider store={configureStore()}>
-                    <div>
-                        <TopAppBar />
-                        <MessageListContainer />
-                    </div>
+                    <TopAppBar />
+                    <MessageListContainer />
                 </Provider>
             </MuiThemeProvider>
         );

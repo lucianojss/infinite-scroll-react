@@ -8,14 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import Error from '@material-ui/icons/Error';
 import MessageList from '../components/MessageList';
 import MessageCard from '../components/MessageCard';
+import InfiniteScroll from 'react-infinite-scroller';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
-    container: {
-        padding: 10,
-        height: '100%'
-    },
     errorContainer: {
-        height: '100vh',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -24,6 +22,14 @@ const styles = {
     errorIcon: {
         margin: 10,
         fontSize: 60
+    },
+    loadingContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        padding: 10
+    },
+    infiniteScroll: {
+        paddingTop: 72
     }
 };
 
@@ -33,11 +39,9 @@ class MessageListContainer extends PureComponent {
 
         this.loadMoreMessages = this.loadMoreMessages.bind(this);
     }
-
     componentDidMount() {
-        // this.loadMoreMessages();
+        this.props.getMessagesList(this.props.limit, this.props.pageToken);
     }
-
     loadMoreMessages() {
         if (!this.props.loading) return this.props.getMessagesList(this.props.limit, this.props.pageToken);
     }
@@ -45,31 +49,36 @@ class MessageListContainer extends PureComponent {
     render() {
         const { classes, loading, error, messages, hasMore } = this.props;
 
-        if (error) {
-            return (
-                <div className={classes.errorContainer}>
-                    <Error className={classes.errorIcon} />
-                    <Typography varint="caption" color="inherit">
-                        Something went wrong, try again later.
-                    </Typography>
-                </div>
-            );
-        }
+        const loaderContainer = (
+            <div className={classes.loadingContainer}>
+                <CircularProgress color="secondary" />
+            </div>
+        );
 
         return (
-            // <div className={classes.container}>
+            <InfiniteScroll
+                className={classes.infiniteScroll}
+                pageStart={0}
+                loadMore={this.loadMoreMessages}
+                hasMore={hasMore}
+                loader={loaderContainer}
+            >
+                {messages.map((message, index) => (
+                    <MessageCard key={index} {...message} />
+                ))}
+            </InfiniteScroll>
+
+            // <div>
             //     {messages.map((message, index) => (
-            //         <MessageCard style={{ marginBottom: 10 }} key={index} {...message} />
+            //         <MessageCard key={index} {...message} />
             //     ))}
             // </div>
-            <div>
-                <MessageList
-                    hasNextPage={hasMore}
-                    isNextPageLoading={loading}
-                    items={messages}
-                    loadNextPage={this.loadMoreMessages}
-                />
-            </div>
+            // <MessageList
+            //     hasNextPage={hasMore}
+            //     isNextPageLoading={loading}
+            //     items={messages}
+            //     loadNextPage={this.loadMoreMessages}
+            // />
         );
     }
 }
