@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 
 import { getMessagesList, deleteMessage } from '../actions/messageListAction';
 import { withStyles } from '@material-ui/core/styles';
-import ErrorOutlineTwoTone from '@material-ui/icons/ErrorOutlineTwoTone';
-import Typography from '@material-ui/core/Typography';
-import Error from '@material-ui/icons/Error';
-import MessageList from '../components/MessageList';
 import MessageCard from '../components/MessageCard';
 import InfiniteScroll from 'react-infinite-scroller';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -54,7 +50,7 @@ class MessageListContainer extends PureComponent {
     }
 
     render() {
-        const { classes, loading, error, messages, hasMore } = this.props;
+        const { classes, messages, hasMore } = this.props;
 
         const loaderContainer = (
             <div className={classes.loadingContainer}>

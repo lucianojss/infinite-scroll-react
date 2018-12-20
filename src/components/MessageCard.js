@@ -6,7 +6,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 import Draggable from 'react-draggable';
 
 const styles = theme => ({
@@ -69,7 +71,9 @@ class MessageCard extends React.Component {
                             className={classes.avatar}
                             avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
                             title={author.name}
-                            subheader={moment(updated).fromNow()}
+                            subheader={dayjs
+                                .extend(relativeTime)(updated)
+                                .fromNow()}
                         />
                         <CardContent>
                             <Typography variant="body2">{content}</Typography>
