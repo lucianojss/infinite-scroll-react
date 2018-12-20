@@ -25,24 +25,29 @@ const styles = theme => ({
 class MessageCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { controlledPosition: { x: 0, y: 0 } };
+        this.state = { controlledPosition: { x: 0, y: 0 }, opacity: 1 };
         this.onDrag = this.onDrag.bind(this);
         this.onStop = this.onStop.bind(this);
     }
 
     onDrag(e, data) {
-        //console.log('Event: ', e);
-        // console.log('Data: ', data);
+        this.setState({
+            opacity: (100 - (data.x * 100) / (this.node.clientWidth * 2)) / 100
+        });
     }
 
     onStop(e, data) {
-        const limitValue = this._card.clientWidth * 0.5;
+        const limitValue = this.node.clientWidth * 0.5;
 
         if (data.x > limitValue) {
             this.props.onDelete(this.props.id);
+            this.setState({
+                opacity: 1
+            });
         } else {
             this.setState({
-                controlledPosition: { x: 0, y: 0 }
+                controlledPosition: { x: 0, y: 0 },
+                opacity: 1
             });
         }
     }
@@ -52,14 +57,13 @@ class MessageCard extends React.Component {
 
         return (
             <Draggable
-                ref={node => (this.card = node)}
                 axis="x"
                 bounds={{ left: 0 }}
                 position={this.state.controlledPosition}
                 onDrag={this.onDrag}
                 onStop={this.onStop}
             >
-                <div ref={c => (this._card = c)}>
+                <div style={{ touchAction: 'initial', opacity: this.state.opacity }} ref={c => (this.node = c)}>
                     <Card className={classes.card} style={style}>
                         <CardHeader
                             className={classes.avatar}
