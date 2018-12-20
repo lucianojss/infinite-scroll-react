@@ -43,11 +43,11 @@ export const getMessagesList = (limit, token = null) => async dispatch => {
 /**
  * Removes message from list at a given index
  *
- * @param {Number} indexToRemove
+ * @param {Number} id
  */
-export const deleteMessage = indexToRemove => dispatch => {
+export const deleteMessage = id => dispatch => {
     return dispatch({
         type: MESSAGE_LIST_ACTIONS.DELETE_MESSAGE,
-        payload: indexToRemove
+        payload: id
     });
 };

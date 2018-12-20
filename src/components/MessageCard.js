@@ -14,32 +14,72 @@ const styles = theme => ({
         marginLeft: 16,
         marginRight: 16,
         marginBottom: 8
+        // opacity: 1,
+        // transition: 'transform 0.3s ease 0s, opacity 0.5s ease 0s'
     },
     avatar: {
         paddingBottom: 0
     }
 });
 
-const MessageCard = props => {
-    const { author, content, updated, style, classes } = props;
+class MessageCard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { controlledPosition: { x: 0, y: 0 } };
+        this.onDrag = this.onDrag.bind(this);
+        this.onStop = this.onStop.bind(this);
+    }
 
-    return (
-        <Card className={classes.card} style={style}>
-            <CardHeader
-                className={classes.avatar}
-                avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
-                title={author.name}
-                subheader={moment(updated).fromNow()}
-            />
-            <CardContent>
-                <Typography variant="body2">{content}</Typography>
-            </CardContent>
-        </Card>
-    );
-};
+    onDrag(e, data) {
+        //console.log('Event: ', e);
+        // console.log('Data: ', data);
+    }
+
+    onStop(e, data) {
+        const limitValue = this._card.clientWidth * 0.5;
+
+        if (data.x > limitValue) {
+            this.props.onDelete(this.props.id);
+        } else {
+            this.setState({
+                controlledPosition: { x: 0, y: 0 }
+            });
+        }
+    }
+
+    render() {
+        const { author, content, updated, style, classes } = this.props;
+
+        return (
+            <Draggable
+                ref={node => (this.card = node)}
+                axis="x"
+                bounds={{ left: 0 }}
+                position={this.state.controlledPosition}
+                onDrag={this.onDrag}
+                onStop={this.onStop}
+            >
+                <div ref={c => (this._card = c)}>
+                    <Card className={classes.card} style={style}>
+                        <CardHeader
+                            className={classes.avatar}
+                            avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
+                            title={author.name}
+                            subheader={moment(updated).fromNow()}
+                        />
+                        <CardContent>
+                            <Typography variant="body2">{content}</Typography>
+                        </CardContent>
+                    </Card>
+                </div>
+            </Draggable>
+        );
+    }
+}
 
 MessageCard.propTypes = {
     style: PropTypes.object,
+    id: PropTypes.number.isRequired,
     author: PropTypes.shape({
         name: PropTypes.string,
         photoUrl: PropTypes.string

@@ -29,7 +29,8 @@ const styles = {
         padding: 10
     },
     infiniteScroll: {
-        paddingTop: 72
+        paddingTop: 72,
+        overflowX: 'hidden'
     }
 };
 
@@ -38,12 +39,15 @@ class MessageListContainer extends PureComponent {
         super(props);
 
         this.loadMoreMessages = this.loadMoreMessages.bind(this);
+        this.deleteMessage = this.deleteMessage.bind(this);
     }
-    componentDidMount() {
-        this.props.getMessagesList(this.props.limit, this.props.pageToken);
-    }
+
     loadMoreMessages() {
         if (!this.props.loading) return this.props.getMessagesList(this.props.limit, this.props.pageToken);
+    }
+
+    deleteMessage(id) {
+        return this.props.deleteMessage(id);
     }
 
     render() {
@@ -58,13 +62,12 @@ class MessageListContainer extends PureComponent {
         return (
             <InfiniteScroll
                 className={classes.infiniteScroll}
-                pageStart={0}
                 loadMore={this.loadMoreMessages}
                 hasMore={hasMore}
                 loader={loaderContainer}
             >
                 {messages.map((message, index) => (
-                    <MessageCard key={index} {...message} />
+                    <MessageCard key={index} {...message} onDelete={this.deleteMessage} />
                 ))}
             </InfiniteScroll>
 
@@ -85,7 +88,7 @@ class MessageListContainer extends PureComponent {
 
 const mapDispatchToProps = dispatch => ({
     getMessagesList: (limit, pageToken) => dispatch(getMessagesList(limit, pageToken)),
-    deleteMessage: index => dispatch(deleteMessage(index))
+    deleteMessage: id => dispatch(deleteMessage(id))
 });
 
 const mapStateToProps = state => ({

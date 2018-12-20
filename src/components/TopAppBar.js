@@ -14,7 +14,7 @@ const styles = {
     }
 };
 
-function TopAppBar(props) {
+const TopAppBar = props => {
     const { classes } = props;
     return (
         <AppBar position="fixed">
@@ -28,7 +28,7 @@ function TopAppBar(props) {
             </Toolbar>
         </AppBar>
     );
-}
+};
 
 TopAppBar.propTypes = {
     classes: PropTypes.object.isRequired
