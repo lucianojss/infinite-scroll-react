@@ -63,7 +63,7 @@ class MessageCard extends React.Component {
                 onDrag={this.onDrag}
                 onStop={this.onStop}
             >
-                <div style={{ touchAction: 'initial', opacity: this.state.opacity }} ref={c => (this.node = c)}>
+                <div style={{ touchAction: 'manipulation', opacity: this.state.opacity }} ref={c => (this.node = c)}>
                     <Card className={classes.card} style={style}>
                         <CardHeader
                             className={classes.avatar}
