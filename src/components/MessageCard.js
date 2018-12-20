@@ -11,8 +11,8 @@ import Draggable from 'react-draggable';
 
 const styles = theme => ({
     card: {
-        marginLeft: 16,
-        marginRight: 16,
+        marginLeft: 8,
+        marginRight: 8,
         marginBottom: 8
         // opacity: 1,
         // transition: 'transform 0.3s ease 0s, opacity 0.5s ease 0s'

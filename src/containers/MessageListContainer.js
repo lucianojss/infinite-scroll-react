@@ -29,8 +29,11 @@ const styles = {
         padding: 10
     },
     infiniteScroll: {
-        paddingTop: 72,
+        paddingTop: 64,
         overflowX: 'hidden'
+    },
+    container: {
+        margin: 8
     }
 };
 
@@ -60,17 +63,18 @@ class MessageListContainer extends PureComponent {
         );
 
         return (
-            <InfiniteScroll
-                className={classes.infiniteScroll}
-                loadMore={this.loadMoreMessages}
-                hasMore={hasMore}
-                loader={loaderContainer}
-            >
-                {messages.map((message, index) => (
-                    <MessageCard key={index} {...message} onDelete={this.deleteMessage} />
-                ))}
-            </InfiniteScroll>
-
+            <div className={classes.container}>
+                <InfiniteScroll
+                    className={classes.infiniteScroll}
+                    loadMore={this.loadMoreMessages}
+                    hasMore={hasMore}
+                    loader={loaderContainer}
+                >
+                    {messages.map((message, index) => (
+                        <MessageCard key={index} {...message} onDelete={this.deleteMessage} />
+                    ))}
+                </InfiniteScroll>
+            </div>
             // <div>
             //     {messages.map((message, index) => (
             //         <MessageCard key={index} {...message} />
