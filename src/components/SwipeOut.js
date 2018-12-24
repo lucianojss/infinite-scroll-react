@@ -20,7 +20,7 @@ class SwipeOut extends React.Component {
         const limitValue = this.node.clientWidth * 0.5;
 
         if (data.x > limitValue) {
-            this.props.onDismiss(this.props.id);
+            this.props.onDismiss(this.props.id, this.props.index);
         } else {
             this.setState({
                 controlledPosition: { x: 0, y: 0 }
@@ -53,6 +53,7 @@ class SwipeOut extends React.Component {
 
 SwipeOut.propTypes = {
     id: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
     children: PropTypes.element.isRequired,
     onDismiss: PropTypes.func.isRequired
 };

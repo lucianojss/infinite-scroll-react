@@ -17,10 +17,10 @@ class MessageList extends PureComponent {
         this.onDelete = this.onDelete.bind(this);
     }
 
-    onDelete(id) {
+    onDelete(id, index) {
         this.props.onDeleteMessage(id);
-        this._cache.clearAll();
-        this._list.recomputeRowHeights();
+        this._cache.clear(index);
+        this._list.recomputeRowHeights(index);
     }
 
     loadMore({ stopIndex }) {
@@ -37,7 +37,7 @@ class MessageList extends PureComponent {
         const message = messages[index];
 
         content = (
-            <SwipeOut id={message.id} onDismiss={this.onDelete}>
+            <SwipeOut id={message.id} index={index} onDismiss={this.onDelete}>
                 <MessageCard {...message} />
             </SwipeOut>
         );
