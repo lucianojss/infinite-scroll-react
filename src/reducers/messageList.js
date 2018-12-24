@@ -3,7 +3,7 @@ import { MESSAGE_LIST_ACTIONS } from '../actions/actions';
 const initialState = {
     messages: [],
     pageToken: null,
-    limit: 100,
+    limit: 25,
     loading: false,
     error: null,
     hasMore: true

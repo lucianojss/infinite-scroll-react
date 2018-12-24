@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 import { getMessagesList, deleteMessage } from '../actions/messageListAction';
 import { withStyles } from '@material-ui/core/styles';
-import MessageCard from '../components/MessageCard';
-import InfiniteScroll from 'react-infinite-scroller';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import MessageList from '../components/MessageList';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = {
     errorContainer: {
@@ -24,12 +23,8 @@ const styles = {
         justifyContent: 'center',
         padding: 10
     },
-    infiniteScroll: {
-        paddingTop: 64,
-        overflowX: 'hidden'
-    },
     container: {
-        margin: 8
+        height: '100%'
     }
 };
 
@@ -37,12 +32,20 @@ class MessageListContainer extends PureComponent {
     constructor(props) {
         super(props);
 
+        this.state = {
+            height: 0
+        };
+
         this.loadMoreMessages = this.loadMoreMessages.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
     }
 
+    componentDidMount() {
+        this.loadMoreMessages({ startIndex: 0, stopIndex: 5 });
+    }
+
     loadMoreMessages() {
-        if (!this.props.loading) return this.props.getMessagesList(this.props.limit, this.props.pageToken);
+        return this.props.getMessagesList(this.props.limit, this.props.pageToken);
     }
 
     deleteMessage(id) {
@@ -50,38 +53,19 @@ class MessageListContainer extends PureComponent {
     }
 
     render() {
-        const { classes, messages, hasMore } = this.props;
-
-        const loaderContainer = (
-            <div className={classes.loadingContainer}>
-                <CircularProgress color="secondary" />
-            </div>
-        );
+        const { classes, messages, hasMore, loading } = this.props;
 
         return (
             <div className={classes.container}>
-                <InfiniteScroll
-                    className={classes.infiniteScroll}
-                    loadMore={this.loadMoreMessages}
+                {loading && <LinearProgress color="secondary" />}
+                <MessageList
+                    messages={messages}
                     hasMore={hasMore}
-                    loader={loaderContainer}
-                >
-                    {messages.map((message, index) => (
-                        <MessageCard key={index} {...message} onDelete={this.deleteMessage} />
-                    ))}
-                </InfiniteScroll>
+                    loading={loading}
+                    loadMoreMessages={this.loadMoreMessages}
+                    onDeleteMessage={this.deleteMessage}
+                />
             </div>
-            // <div>
-            //     {messages.map((message, index) => (
-            //         <MessageCard key={index} {...message} />
-            //     ))}
-            // </div>
-            // <MessageList
-            //     hasNextPage={hasMore}
-            //     isNextPageLoading={loading}
-            //     items={messages}
-            //     loadNextPage={this.loadMoreMessages}
-            // />
         );
     }
 }
@@ -100,6 +84,7 @@ const mapStateToProps = state => ({
     hasMore: state.messageList.hasMore
 });
 
+//TODO: PROPTYPES
 export default withStyles(styles)(
     connect(
         mapStateToProps,
