@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import 'react-virtualized/styles.css';
 import PropTypes from 'prop-types';
 import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 import MessageCard from './MessageCard';
