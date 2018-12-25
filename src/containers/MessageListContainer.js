@@ -23,16 +23,14 @@ const styles = {
         justifyContent: 'center',
         padding: 10
     },
-    container: {}
+    container: {
+        paddingTop: 80
+    }
 };
 
 class MessageListContainer extends PureComponent {
     constructor(props) {
         super(props);
-
-        this.state = {
-            height: 0
-        };
 
         this.loadMoreMessages = this.loadMoreMessages.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
@@ -43,11 +41,11 @@ class MessageListContainer extends PureComponent {
     }
 
     loadMoreMessages() {
-        return this.props.getMessagesList(this.props.limit, this.props.pageToken);
+        this.props.getMessagesList(this.props.limit, this.props.pageToken);
     }
 
     deleteMessage(id) {
-        return this.props.deleteMessage(id);
+        this.props.deleteMessage(id);
     }
 
     render() {
@@ -62,6 +60,7 @@ class MessageListContainer extends PureComponent {
                     loading={loading}
                     loadMoreMessages={this.loadMoreMessages}
                     onDismiss={this.deleteMessage}
+                    threshold={5}
                 />
             </div>
         );

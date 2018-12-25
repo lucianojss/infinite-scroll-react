@@ -11,8 +11,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 const styles = theme => ({
     card: {
-        marginLeft: 8,
-        marginRight: 8,
+        marginLeft: 16,
+        marginRight: 16,
         marginBottom: 8
     },
     avatar: {

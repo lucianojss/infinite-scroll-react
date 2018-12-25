@@ -10,7 +10,7 @@ class MessageList extends PureComponent {
         super(props);
 
         this._cache = new CellMeasurerCache({
-            indexToIdMap: index => this.props.messages[index].id,
+            keyMapper: index => this.props.messages[index].id,
             fixedWidth: true
         });
 
@@ -21,11 +21,11 @@ class MessageList extends PureComponent {
 
     onDelete(id) {
         this.props.onDismiss(id);
-        this._cache.clearAll();
-        this._list.recomputeRowHeights();
+        this._cache.clear(id, 0);
+        this._list.recomputeRowHeights(id);
     }
 
-    loadMore({ stopIndex, startIndex }) {
+    loadMore({ stopIndex }) {
         if (stopIndex + this.props.threshold >= this.props.messages.length && !this.props.loading) {
             return this.props.loadMoreMessages();
         }
@@ -50,12 +50,19 @@ class MessageList extends PureComponent {
                 key={key}
                 parent={parent}
                 rowIndex={index}
-                mostRecentWidth={2323}
+                mostRecentWidth={this.mostRecentWidth}
             >
                 <div style={style}>{content}</div>
             </CellMeasurer>
         );
     };
+
+    _resetRowHeights() {
+        setTimeout(() => {
+            this._cache.clearAll();
+            if (this._list) this._list.recomputeRowHeights();
+        }, 0);
+    }
 
     render() {
         const { messages, hasMore } = this.props;
@@ -72,10 +79,7 @@ class MessageList extends PureComponent {
                             <AutoSizer disableHeight>
                                 {({ width }) => {
                                     if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-                                        setTimeout(() => {
-                                            this._cache.clearAll();
-                                            if (this._list) this._list.recomputeRowHeights();
-                                        }, 0);
+                                        this._resetRowHeights();
                                     }
 
                                     this.mostRecentWidth = width;
@@ -90,7 +94,7 @@ class MessageList extends PureComponent {
                                             deferredMeasurementCache={this._cache}
                                             height={height}
                                             onRowsRendered={onRowsRendered}
-                                            overscanRowCount={5}
+                                            overscanRowCount={10}
                                             rowCount={messages.length}
                                             rowHeight={this._cache.rowHeight}
                                             rowRenderer={this._rowRenderer}
