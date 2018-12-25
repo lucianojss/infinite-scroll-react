@@ -13,7 +13,7 @@ class App extends PureComponent {
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
                 <Provider store={configureStore()}>
-                    <TopAppBar />
+                    {/* <TopAppBar /> */}
                     <MessageListContainer />
                 </Provider>
             </MuiThemeProvider>

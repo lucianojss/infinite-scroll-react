@@ -63,7 +63,7 @@ class MessageListContainer extends PureComponent {
                     hasMore={hasMore}
                     loading={loading}
                     loadMoreMessages={this.loadMoreMessages}
-                    onDeleteMessage={this.deleteMessage}
+                    onDismiss={this.deleteMessage}
                 />
             </div>
         );

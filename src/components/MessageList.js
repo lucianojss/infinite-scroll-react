@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
+import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 import MessageCard from './MessageCard';
 import SwipeOut from './SwipeOut';
 
@@ -18,12 +18,13 @@ class MessageList extends PureComponent {
     }
 
     onDelete(id, index) {
-        this.props.onDeleteMessage(id);
+        this.props.onDismiss(id);
         this._cache.clear(index);
-        this._list.recomputeRowHeights(index);
+        //this._list.recomputeRowHeights(index);
     }
 
-    loadMore({ stopIndex }) {
+    loadMore({ stopIndex, startIndex }) {
+        console.log(stopIndex, startIndex);
         if (stopIndex + this.props.threshold >= this.props.messages.length && !this.props.loading) {
             return this.props.loadMoreMessages();
         }
@@ -56,26 +57,33 @@ class MessageList extends PureComponent {
             <InfiniteLoader
                 isRowLoaded={index => !hasMore || index < messages.length}
                 loadMoreRows={this.loadMore}
-                rowCount={messages.length + 1}
+                rowCount={messages.length}
+                threshold={5}
             >
                 {({ onRowsRendered, registerChild }) => (
-                    <AutoSizer>
-                        {({ height, width }) => {
-                            return (
-                                <List
-                                    ref={el => (this._list = el)}
-                                    deferredMeasurementCache={this._cache}
-                                    height={height}
-                                    onRowsRendered={onRowsRendered}
-                                    overscanRowCount={0}
-                                    rowCount={messages.length}
-                                    rowHeight={this._cache.rowHeight}
-                                    rowRenderer={this._rowRenderer}
-                                    width={width}
-                                />
-                            );
-                        }}
-                    </AutoSizer>
+                    <WindowScroller>
+                        {({ height, isScrolling, scrollTop }) => (
+                            <AutoSizer disableHeight>
+                                {({ width }) => {
+                                    return (
+                                        <List
+                                            autoHeight
+                                            ref={registerChild}
+                                            deferredMeasurementCache={this._cache}
+                                            height={height}
+                                            onRowsRendered={onRowsRendered}
+                                            overscanRowCount={5}
+                                            rowCount={messages.length}
+                                            rowHeight={this._cache.rowHeight}
+                                            rowRenderer={this._rowRenderer}
+                                            width={width}
+                                            scrollTop={scrollTop}
+                                        />
+                                    );
+                                }}
+                            </AutoSizer>
+                        )}
+                    </WindowScroller>
                 )}
             </InfiniteLoader>
         );
@@ -89,7 +97,7 @@ MessageList.defaultProps = {
 MessageList.propTypes = {
     messages: PropTypes.array.isRequired,
     loadMoreMessages: PropTypes.func.isRequired,
-    onDeleteMessage: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func.isRequired,
     hasMore: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     threshold: PropTypes.number
