@@ -9,6 +9,7 @@ class MessageList extends PureComponent {
         super(props);
 
         this._cache = new CellMeasurerCache({
+            indexToIdMap: index => this.props.messages[index].id,
             fixedWidth: true
         });
 
@@ -17,14 +18,13 @@ class MessageList extends PureComponent {
         this.onDelete = this.onDelete.bind(this);
     }
 
-    onDelete(id, index) {
+    onDelete(id) {
         this.props.onDismiss(id);
-        this._cache.clear(index);
-        //this._list.recomputeRowHeights(index);
+        this._cache.clearAll();
+        this._list.recomputeRowHeights();
     }
 
     loadMore({ stopIndex, startIndex }) {
-        console.log(stopIndex, startIndex);
         if (stopIndex + this.props.threshold >= this.props.messages.length && !this.props.loading) {
             return this.props.loadMoreMessages();
         }
@@ -32,10 +32,9 @@ class MessageList extends PureComponent {
 
     _rowRenderer = ({ index, key, parent, style }) => {
         const { messages } = this.props;
+        const message = messages[index];
 
         let content;
-
-        const message = messages[index];
 
         content = (
             <SwipeOut id={message.id} index={index} onDismiss={this.onDelete}>
@@ -44,7 +43,14 @@ class MessageList extends PureComponent {
         );
 
         return (
-            <CellMeasurer cache={this._cache} columnIndex={0} key={key} parent={parent} rowIndex={index}>
+            <CellMeasurer
+                cache={this._cache}
+                columnIndex={0}
+                key={key}
+                parent={parent}
+                rowIndex={index}
+                mostRecentWidth={2323}
+            >
                 <div style={style}>{content}</div>
             </CellMeasurer>
         );
@@ -58,17 +64,28 @@ class MessageList extends PureComponent {
                 isRowLoaded={index => !hasMore || index < messages.length}
                 loadMoreRows={this.loadMore}
                 rowCount={messages.length}
-                threshold={5}
             >
                 {({ onRowsRendered, registerChild }) => (
                     <WindowScroller>
-                        {({ height, isScrolling, scrollTop }) => (
+                        {({ height, scrollTop, isScrolling, onChildScroll }) => (
                             <AutoSizer disableHeight>
                                 {({ width }) => {
+                                    if (this.mostRecentWidth && this.mostRecentWidth !== width) {
+                                        setTimeout(() => {
+                                            this._cache.clearAll();
+                                            if (this._list) this._list.recomputeRowHeights();
+                                        }, 0);
+                                    }
+
+                                    this.mostRecentWidth = width;
+
                                     return (
                                         <List
                                             autoHeight
-                                            ref={registerChild}
+                                            ref={ref => {
+                                                this._list = ref;
+                                                registerChild(ref);
+                                            }}
                                             deferredMeasurementCache={this._cache}
                                             height={height}
                                             onRowsRendered={onRowsRendered}
@@ -78,6 +95,8 @@ class MessageList extends PureComponent {
                                             rowRenderer={this._rowRenderer}
                                             width={width}
                                             scrollTop={scrollTop}
+                                            isScrolling={isScrolling}
+                                            onScroll={onChildScroll}
                                         />
                                     );
                                 }}

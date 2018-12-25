@@ -23,9 +23,7 @@ const styles = {
         justifyContent: 'center',
         padding: 10
     },
-    container: {
-        height: '100%'
-    }
+    container: {}
 };
 
 class MessageListContainer extends PureComponent {
@@ -57,7 +55,7 @@ class MessageListContainer extends PureComponent {
 
         return (
             <div className={classes.container}>
-                {loading && <LinearProgress color="secondary" />}
+                {/* {loading && <LinearProgress color="secondary" />} */}
                 <MessageList
                     messages={messages}
                     hasMore={hasMore}
