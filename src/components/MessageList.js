@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 import MessageCard from './MessageCard';
 import SwipeOut from './SwipeOut';
-
 class MessageList extends PureComponent {
     constructor(props) {
         super(props);
@@ -33,13 +32,10 @@ class MessageList extends PureComponent {
 
     _rowRenderer = ({ index, key, parent, style }) => {
         const { messages } = this.props;
-        const message = messages[index];
 
-        let content;
-
-        content = (
-            <SwipeOut id={message.id} index={index} onDismiss={this.onDelete}>
-                <MessageCard {...message} />
+        const content = (
+            <SwipeOut id={messages[index].id} onDismiss={this.onDelete}>
+                <MessageCard {...messages[index]} />
             </SwipeOut>
         );
 
@@ -57,11 +53,9 @@ class MessageList extends PureComponent {
         );
     };
 
-    _resetRowHeights() {
-        setTimeout(() => {
-            this._cache.clearAll();
-            if (this._list) this._list.recomputeRowHeights();
-        }, 0);
+    _calculateRowHeights() {
+        this._cache.clearAll();
+        if (this._list) this._list.recomputeRowHeights();
     }
 
     render() {
@@ -79,7 +73,9 @@ class MessageList extends PureComponent {
                             <AutoSizer disableHeight>
                                 {({ width }) => {
                                     if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-                                        this._resetRowHeights();
+                                        setTimeout(() => {
+                                            this._calculateRowHeights();
+                                        }, 0);
                                     }
 
                                     this.mostRecentWidth = width;

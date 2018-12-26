@@ -1,23 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-
 import { getMessagesList, deleteMessage } from '../actions/messageListAction';
 import { withStyles } from '@material-ui/core/styles';
 import MessageList from '../components/MessageList';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import ErrorMessage from '../components/ErrorMessage';
 
 const styles = {
-    errorContainer: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    errorIcon: {
-        margin: 10,
-        fontSize: 60
-    },
     loadingContainer: {
         display: 'flex',
         justifyContent: 'center',
@@ -49,11 +37,12 @@ class MessageListContainer extends PureComponent {
     }
 
     render() {
-        const { classes, messages, hasMore, loading } = this.props;
-
+        const { classes, messages, hasMore, loading, error } = this.props;
+        if (error && messages.length === 0) {
+            return <ErrorMessage text="Something went wrong, try again later." />;
+        }
         return (
             <div className={classes.container}>
-                {/* {loading && <LinearProgress color="secondary" />} */}
                 <MessageList
                     messages={messages}
                     hasMore={hasMore}
@@ -81,7 +70,6 @@ const mapStateToProps = state => ({
     hasMore: state.messageList.hasMore
 });
 
-//TODO: PROPTYPES
 export default withStyles(styles)(
     connect(
         mapStateToProps,

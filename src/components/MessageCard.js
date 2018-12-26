@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-const styles = theme => ({
+const styles = () => ({
     card: {
         marginLeft: 16,
         marginRight: 16,
@@ -20,37 +20,40 @@ const styles = theme => ({
     }
 });
 
-class MessageCard extends PureComponent {
-    render() {
-        const { author, content, updated, style, classes, id } = this.props;
+const MessageCard = props => {
+    const { author, content, updated, style, classes } = props;
 
-        return (
-            <Card className={classes.card} style={style}>
-                <CardHeader
-                    className={classes.avatar}
-                    avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
-                    title={author.name + ' - ' + id}
-                    subheader={dayjs
-                        .extend(relativeTime)(updated)
-                        .fromNow()}
-                />
-                <CardContent>
-                    <Typography variant="body2">{content}</Typography>
-                </CardContent>
-            </Card>
-        );
-    }
-}
+    return (
+        <Card className={classes.card} style={style}>
+            <CardHeader
+                className={classes.avatar}
+                avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
+                title={<Typography variant="subtitle2">{author.name}</Typography>}
+                subheader={
+                    <Typography variant="caption">
+                        {dayjs
+                            .extend(relativeTime)(updated)
+                            .fromNow()}
+                    </Typography>
+                }
+            />
+            <CardContent>
+                <Typography variant="body2">{content}</Typography>
+            </CardContent>
+        </Card>
+    );
+};
 
 MessageCard.propTypes = {
+    classes: PropTypes.object.isRequired,
     style: PropTypes.object,
     id: PropTypes.number.isRequired,
     author: PropTypes.shape({
-        name: PropTypes.string,
-        photoUrl: PropTypes.string
+        name: PropTypes.string.isRequired,
+        photoUrl: PropTypes.string.isRequired
     }),
-    updated: PropTypes.instanceOf(Date),
-    content: PropTypes.string
+    updated: PropTypes.instanceOf(Date).isRequired,
+    content: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(MessageCard);

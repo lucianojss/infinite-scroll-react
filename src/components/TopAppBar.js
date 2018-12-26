@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = {
     menuButton: {
@@ -15,18 +16,21 @@ const styles = {
 };
 
 const TopAppBar = props => {
-    const { classes } = props;
+    const { classes, loading } = props;
     return (
-        <AppBar position="fixed">
-            <Toolbar>
-                <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" color="inherit" className={classes.grow}>
-                    Messages
-                </Typography>
-            </Toolbar>
-        </AppBar>
+        <div>
+            <AppBar position="fixed">
+                <Toolbar>
+                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" color="inherit">
+                        Messages
+                    </Typography>
+                </Toolbar>
+                {loading && <LinearProgress color="secondary" />}
+            </AppBar>
+        </div>
     );
 };
 
