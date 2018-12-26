@@ -29,6 +29,7 @@ export default (state = initialState, action) => {
         case MESSAGE_LIST_ACTIONS.GET_MESSAGES_ERROR:
             return {
                 ...state,
+                loading: false,
                 error: action.payload
             };
         case MESSAGE_LIST_ACTIONS.DELETE_MESSAGE:

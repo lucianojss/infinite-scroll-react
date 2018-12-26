@@ -5,7 +5,7 @@ describe('#messageList', () => {
         expect(messageList(undefined, {})).toEqual({
             messages: [],
             pageToken: null,
-            limit: 20,
+            limit: 25,
             loading: false,
             error: null,
             hasMore: true
@@ -20,7 +20,7 @@ describe('#messageList', () => {
         ).toEqual({
             messages: [],
             pageToken: null,
-            limit: 20,
+            limit: 25,
             loading: true,
             error: null,
             hasMore: true
@@ -39,7 +39,7 @@ describe('#messageList', () => {
         ).toEqual({
             messages: [1, 2],
             pageToken: 'dummyToken',
-            limit: 20,
+            limit: 25,
             loading: false,
             error: null,
             hasMore: true
@@ -55,7 +55,7 @@ describe('#messageList', () => {
         ).toEqual({
             messages: [],
             pageToken: null,
-            limit: 20,
+            limit: 25,
             loading: false,
             error: 'error',
             hasMore: true
@@ -66,22 +66,22 @@ describe('#messageList', () => {
         expect(
             messageList(
                 {
-                    messages: [1, 2, 3],
+                    messages: [{ id: 1 }, { id: 2 }, { id: 3 }],
                     pageToken: null,
-                    limit: 20,
+                    limit: 25,
                     loading: false,
                     error: null,
                     hasMore: true
                 },
                 {
                     type: MESSAGE_LIST_ACTIONS.DELETE_MESSAGE,
-                    payload: 1
+                    payload: 2
                 }
             )
         ).toEqual({
-            messages: [1, 3],
+            messages: [{ id: 1 }, { id: 3 }],
             pageToken: null,
-            limit: 20,
+            limit: 25,
             loading: false,
             error: null,
             hasMore: true
