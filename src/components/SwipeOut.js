@@ -45,7 +45,7 @@ class SwipeOut extends React.PureComponent {
                 onDrag={this.onDrag}
                 onStop={this.onStop}
             >
-                <div style={{ opacity: this.state.opacity }} ref={c => (this.node = c)}>
+                <div style={{ touchAction: 'manipulation', opacity: this.state.opacity }} ref={c => (this.node = c)}>
                     {children}
                 </div>
             </Draggable>
