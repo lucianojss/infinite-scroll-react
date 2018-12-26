@@ -1,6 +1,6 @@
 {
-    "short_name": "Infinite message scroll",
-    "name": "Infinite message scroll",
+    "short_name": "Infinite scroll",
+    "name": "Infinite Scrolling Message List",
     "icons": [
         {
             "src": "favicon.ico",

@@ -82,6 +82,7 @@ class MessageList extends PureComponent {
 
                                     return (
                                         <List
+                                            style={{ outline: 'none' }}
                                             autoHeight
                                             ref={ref => {
                                                 this._list = ref;
