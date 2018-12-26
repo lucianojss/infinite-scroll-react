@@ -54,7 +54,7 @@ class SwipeOut extends React.PureComponent {
 }
 
 SwipeOut.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
     onDismiss: PropTypes.func.isRequired
 };

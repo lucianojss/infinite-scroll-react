@@ -19,9 +19,11 @@ class MessageList extends PureComponent {
     }
 
     onDelete(id) {
+        const index = this.props.messages.findIndex(message => message.id === id);
         this.props.onDismiss(id);
-        this._cache.clear(id, 0);
-        this._list.recomputeRowHeights(id);
+
+        this._cache.clear(index, 0);
+        this._list.recomputeRowHeights(index);
     }
 
     loadMore({ stopIndex }) {

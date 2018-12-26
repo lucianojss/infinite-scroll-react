@@ -33,7 +33,7 @@ const transformMessageList = response => {
         acc.push({
             author: { name: message.author.name, photoUrl: `${API_URL}${message.author.photoUrl}` },
             content: message.content,
-            id: message.id,
+            id: '$' + message.id,
             updated: new Date(message.updated)
         });
 

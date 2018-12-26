@@ -47,7 +47,7 @@ const MessageCard = props => {
 MessageCard.propTypes = {
     classes: PropTypes.object.isRequired,
     style: PropTypes.object,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     author: PropTypes.shape({
         name: PropTypes.string.isRequired,
         photoUrl: PropTypes.string.isRequired
