@@ -6,11 +6,6 @@ import MessageList from '../components/MessageList';
 import ErrorMessage from '../components/ErrorMessage';
 
 const styles = {
-    loadingContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        padding: 10
-    },
     container: {
         paddingTop: 80
     }
