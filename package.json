@@ -7,7 +7,6 @@
         "@material-ui/icons": "^3.0.1",
         "dayjs": "^1.7.8",
         "react": "^16.6.3",
-        "react-addons-css-transition-group": "^15.6.2",
         "react-dom": "^16.6.3",
         "react-draggable": "^3.0.5",
         "react-redux": "^6.0.0",
@@ -40,7 +39,6 @@
         "husky": "^1.2.1",
         "prettier": "^1.15.3",
         "pretty-quick": "^1.8.0",
-        "react-addons-perf": "^15.4.2",
         "redux-mock-store": "^1.5.3",
         "webpack-bundle-analyzer": "^3.0.3"
     }
