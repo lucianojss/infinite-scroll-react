@@ -31,7 +31,7 @@ Main Tech stack:
 ### With more time I would like to add:
 
 -   Add Service Worker to get offline support and cache assets.
--   Save current state of the application so if user reloads the page it will keep the deleted messages and pushed messages will not be fetched again.
+-   Save current state of the application (fetched messages and deleted messages) so if user reloads the page the app will not fetch again the same messages.
 -   Add smooth animations during message swiping.
 -   Add redo and undo actions when deleting a message.
 -   Finish Unit tests to react components.
