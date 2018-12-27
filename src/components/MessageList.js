@@ -93,7 +93,7 @@ class MessageList extends PureComponent {
                                             deferredMeasurementCache={this._cache}
                                             height={height}
                                             onRowsRendered={onRowsRendered}
-                                            overscanRowCount={10}
+                                            overscanRowCount={15}
                                             rowCount={messages.length}
                                             rowHeight={this._cache.rowHeight}
                                             rowRenderer={this._rowRenderer}
