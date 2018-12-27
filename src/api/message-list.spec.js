@@ -44,7 +44,7 @@ describe('#getMessages', () => {
                         photoUrl: 'https://message-list.appspot.com/photos/william-shakespeare.jpg'
                     },
                     content: 'dummyContent',
-                    id: 1,
+                    id: '$1',
                     updated: new Date('2015-02-01T07:46:23Z')
                 }
             ]
