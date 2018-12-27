@@ -1,44 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Infinite Scrolling Message List
 
-## Available Scripts
+React application that efficiently renders infinite list of messages.
 
-In the project directory, you can run:
+### Demo
 
-### `npm start`
+As requested the demo version is protected with a simple prompt window.
+A demo version can be seen on this link:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+-   https://goo.gl/KnX3Wk (password: google)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Overall Progress and constraints
 
-### `npm test`
+The biggest challenge on this task was dealing with a very long list of messages, because more items you load more DOM is generated causing the browser to spend more time to render it, That causes smoothness to drop significantly, and if we are dealing with low end devices this is even more noticeable.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The approach I took was loading to the DOM only the messages that are visible in the viewport and when the user scrolls down the messages that are not anymore in the viewport are removed, while the next ones are loaded.
+This allow us to keep always the same number of DOM elements even when more and more messages are fetched keeping the application smooth. This is the same behavior that for example Instagram uses for infinite loading.
+To archive this result I used [react-virtualized](https://github.com/bvaughn/react-virtualized)
 
-### `npm run build`
+To handle the swipe out action I picked [React draggable](https://github.com/mzabriskie/react-draggable) that offers an out of the box component to handle drag and drop events.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Main Tech stack:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+-   [React](https://reactjs.org/)
+-   [Redux](https://redux.js.org/)
+-   [React Virtualized](https://github.com/bvaughn/react-virtualized)
+-   [Material-UI](https://material-ui.com/)
+-   [React draggable](https://github.com/mzabriskie/react-draggable)
+-   [Day.js](https://github.com/iamkun/dayjs)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### With more time I would like to add:
 
-### `npm run eject`
+-   Add Service Worker to get offline support and cache assets.
+-   Save current state of the application so if user reloads the page it will keep the deleted messages and pushed messages will not be fetched again.
+-   Add smooth animations during message swiping.
+-   Add redo and undo actions when deleting a message.
+-   Finish Unit tests to react components.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Prerequisites
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To run locally the app, you need to have node version 10 (recommended) installed in your machine.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Run client locally
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+For development mode:
 
-## Learn More
+    npm install
+    npm run start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For production you can run following command that will generate a build folder.
+  
+ npm install
+npm run build
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Run unit tests
+
+In order to execute the unit tests run the following command:
+
+    npm run test
