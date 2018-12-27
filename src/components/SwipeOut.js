@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 
-const className = {
-    transition: 'transform 0.5s ease'
-};
 class SwipeOut extends React.PureComponent {
     constructor(props) {
         super(props);
