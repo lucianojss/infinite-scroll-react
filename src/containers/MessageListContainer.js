@@ -5,11 +5,16 @@ import { withStyles } from '@material-ui/core/styles';
 import MessageList from '../components/MessageList';
 import ErrorMessage from '../components/ErrorMessage';
 
-const styles = {
+const styles = theme => ({
     container: {
-        paddingTop: 72
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: 72
+        },
+        [theme.breakpoints.up('sm')]: {
+            paddingTop: 80
+        }
     }
-};
+});
 
 class MessageListContainer extends PureComponent {
     constructor(props) {
@@ -37,7 +42,7 @@ class MessageListContainer extends PureComponent {
             return <ErrorMessage text="Something went wrong, try again later." />;
         }
         return (
-            <div className={classes.container}>
+            <main className={classes.container}>
                 <MessageList
                     messages={messages}
                     hasMore={hasMore}
@@ -46,7 +51,7 @@ class MessageListContainer extends PureComponent {
                     onDismiss={this.deleteMessage}
                     threshold={5}
                 />
-            </div>
+            </main>
         );
     }
 }
