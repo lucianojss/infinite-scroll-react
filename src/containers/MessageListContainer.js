@@ -7,7 +7,7 @@ import ErrorMessage from '../components/ErrorMessage';
 
 const styles = {
     container: {
-        paddingTop: 80
+        paddingTop: 72
     }
 };
 
