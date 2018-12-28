@@ -18,19 +18,17 @@ const styles = {
 const TopAppBar = props => {
     const { classes, loading } = props;
     return (
-        <div>
-            <AppBar position="fixed">
-                <Toolbar>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" color="inherit">
-                        Messages
-                    </Typography>
-                </Toolbar>
-                {loading && <LinearProgress color="secondary" />}
-            </AppBar>
-        </div>
+        <AppBar position="fixed">
+            <Toolbar>
+                <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                    <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" color="inherit">
+                    Messages
+                </Typography>
+            </Toolbar>
+            {loading && <LinearProgress color="secondary" />}
+        </AppBar>
     );
 };
 
