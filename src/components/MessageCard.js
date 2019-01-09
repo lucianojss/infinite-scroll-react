@@ -21,10 +21,10 @@ const styles = () => ({
 });
 
 const MessageCard = props => {
-    const { author, content, updated, style, classes } = props;
+    const { author, content, updated, classes } = props;
 
     return (
-        <Card className={classes.card} style={style}>
+        <Card className={classes.card}>
             <CardHeader
                 className={classes.avatar}
                 avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
@@ -46,7 +46,6 @@ const MessageCard = props => {
 
 MessageCard.propTypes = {
     classes: PropTypes.object.isRequired,
-    style: PropTypes.object,
     id: PropTypes.string.isRequired,
     author: PropTypes.shape({
         name: PropTypes.string.isRequired,

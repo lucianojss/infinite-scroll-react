@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = () => ({
+    dragOver: {
+        transition: 'transform ease 0.5s',
+        touchAction: 'manipulation'
+    }
+});
 
 class SwipeOut extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            controlledPosition: { x: 0, y: 0 },
-            opacity: 1
+            opacity: 1,
+            dragging: false
         };
 
         this.onDrag = this.onDrag.bind(this);
@@ -16,7 +24,8 @@ class SwipeOut extends React.PureComponent {
 
     onDrag(e, data) {
         this.setState({
-            opacity: 1 - (0.5 * data.x) / this.node.clientWidth
+            opacity: 1 - (0.5 * data.x) / this.node.clientWidth,
+            dragging: true
         });
     }
 
@@ -25,24 +34,34 @@ class SwipeOut extends React.PureComponent {
 
         if (data.x > limitValue) {
             this.props.onDismiss(this.props.id);
+            this.setState({
+                opacity: 1
+            });
+        } else {
+            this.setState({
+                opacity: 1,
+                dragging: false
+            });
         }
-
-        this.setState({
-            opacity: 1
-        });
     }
 
     render() {
-        const { children } = this.props;
+        const { children, classes } = this.props;
+        const { dragging } = this.state;
+
         return (
             <Draggable
                 axis="x"
                 bounds={{ left: 0 }}
-                position={this.state.controlledPosition}
+                position={{ x: 0, y: 0 }}
                 onDrag={this.onDrag}
                 onStop={this.onStop}
             >
-                <div style={{ touchAction: 'manipulation', opacity: this.state.opacity }} ref={c => (this.node = c)}>
+                <div
+                    style={{ opacity: this.state.opacity, touchAction: 'manipulation' }}
+                    className={dragging ? {} : classes.dragOver}
+                    ref={c => (this.node = c)}
+                >
                     {children}
                 </div>
             </Draggable>
@@ -56,4 +75,4 @@ SwipeOut.propTypes = {
     onDismiss: PropTypes.func.isRequired
 };
 
-export default SwipeOut;
+export default withStyles(styles)(SwipeOut);

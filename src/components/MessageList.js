@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 import MessageCard from './MessageCard';
 import SwipeOut from './SwipeOut';
+
 class MessageList extends PureComponent {
     constructor(props) {
         super(props);
@@ -93,7 +94,7 @@ class MessageList extends PureComponent {
                                             deferredMeasurementCache={this._cache}
                                             height={height}
                                             onRowsRendered={onRowsRendered}
-                                            overscanRowCount={30}
+                                            overscanRowCount={10}
                                             rowCount={messages.length}
                                             rowHeight={this._cache.rowHeight}
                                             rowRenderer={this._rowRenderer}
