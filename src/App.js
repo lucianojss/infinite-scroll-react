@@ -9,6 +9,11 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import theme from './theme/';
 
 class App extends PureComponent {
+    componentDidMount() {
+        const ele = document.getElementById('progress-indicator');
+
+        if (ele) ele.outerHTML = '';
+    }
     render() {
         return (
             <MuiThemeProvider theme={theme}>

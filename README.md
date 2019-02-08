@@ -7,7 +7,7 @@ React application that efficiently renders infinite list of messages.
 As requested the demo version is protected with a simple prompt window.
 A demo version can be seen on this link:
 
--   https://goo.gl/KnX3Wk (password: google)
+-   https://goo.gl/KnX3Wk
 
 ### Overall Progress and constraints
 

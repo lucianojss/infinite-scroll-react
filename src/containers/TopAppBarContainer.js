@@ -3,12 +3,9 @@ import { connect } from 'react-redux';
 import TopAppBar from '../components/TopAppBar.js';
 
 const TopAppBarContainer = props => {
-    const { loading } = props;
-    return <TopAppBar loading={loading} />;
+    return <TopAppBar />;
 };
 
-const mapStateToProps = state => ({
-    loading: state.messageList.loading
-});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps)(TopAppBarContainer);

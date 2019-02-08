@@ -1,5 +1,5 @@
 {
-    "name": "infinite-scroll-google",
+    "name": "infinite-scroll",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -10,7 +10,7 @@
         "react-dom": "^16.6.3",
         "react-draggable": "^3.0.5",
         "react-redux": "^6.0.0",
-        "react-scripts": "2.1.1",
+        "react-scripts": "^2.1.3",
         "react-virtualized": "^9.21.0",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
@@ -21,7 +21,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "precommit": "pretty-quick --staged"
+        "precommit": "pretty-quick --staged",
+        "postbuild": "react-snap"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -32,6 +33,9 @@
         "not ie <= 11",
         "not op_mini all"
     ],
+    "reactSnap": {
+        "inlineCss": true
+    },
     "devDependencies": {
         "eslint": "5.6.0",
         "eslint-config-prettier": "^3.3.0",
@@ -39,6 +43,7 @@
         "husky": "^1.2.1",
         "prettier": "^1.15.3",
         "pretty-quick": "^1.8.0",
+        "react-snap": "^1.23.0",
         "redux-mock-store": "^1.5.3",
         "webpack-bundle-analyzer": "^3.0.3"
     }

@@ -8,6 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Grey from '@material-ui/core/colors/grey';
 
 const styles = () => ({
     card: {
@@ -15,8 +16,11 @@ const styles = () => ({
         marginRight: 16,
         marginBottom: 8
     },
-    avatar: {
+    CardHeader: {
         paddingBottom: 0
+    },
+    avatar: {
+        background: Grey[200]
     }
 });
 
@@ -26,8 +30,8 @@ const MessageCard = props => {
     return (
         <Card className={classes.card}>
             <CardHeader
-                className={classes.avatar}
-                avatar={<Avatar aria-label={author.name} src={author.photoUrl} />}
+                className={classes.CardHeader}
+                avatar={<Avatar className={classes.avatar} aria-label={author.name} src={author.photoUrl} />}
                 title={<Typography variant="subtitle2">{author.name}</Typography>}
                 subheader={
                     <Typography variant="caption">

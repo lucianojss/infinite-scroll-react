@@ -6,7 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = {
     menuButton: {
@@ -16,7 +15,7 @@ const styles = {
 };
 
 const TopAppBar = props => {
-    const { classes, loading } = props;
+    const { classes } = props;
     return (
         <AppBar position="fixed">
             <Toolbar>
@@ -27,7 +26,6 @@ const TopAppBar = props => {
                     Messages
                 </Typography>
             </Toolbar>
-            {loading && <LinearProgress color="secondary" />}
         </AppBar>
     );
 };

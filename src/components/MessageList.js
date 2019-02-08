@@ -3,6 +3,8 @@ import 'react-virtualized/styles.css';
 import PropTypes from 'prop-types';
 import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 import MessageCard from './MessageCard';
+import MessageCardPlaceholder from './MessageCardPlaceholder';
+
 import SwipeOut from './SwipeOut';
 
 class MessageList extends PureComponent {
@@ -27,7 +29,7 @@ class MessageList extends PureComponent {
         this._list.recomputeRowHeights(index);
     }
 
-    loadMore({ stopIndex }) {
+    loadMore({ startIndex, stopIndex }) {
         if (stopIndex + this.props.threshold >= this.props.messages.length && !this.props.loading) {
             return this.props.loadMoreMessages();
         }
@@ -35,7 +37,6 @@ class MessageList extends PureComponent {
 
     _rowRenderer = ({ index, key, parent, style }) => {
         const { messages } = this.props;
-
         const content = (
             <SwipeOut id={messages[index].id} onDismiss={this.onDelete}>
                 <MessageCard {...messages[index]} />
@@ -62,55 +63,58 @@ class MessageList extends PureComponent {
     }
 
     render() {
-        const { messages, hasMore } = this.props;
+        const { messages, hasMore, loading } = this.props;
+        if (loading && messages.length === 0) {
+            return <MessageCardPlaceholder />;
+        } else {
+            return (
+                <InfiniteLoader
+                    isRowLoaded={index => !hasMore || index < messages.length}
+                    loadMoreRows={this.loadMore}
+                    rowCount={messages.length}
+                >
+                    {({ onRowsRendered, registerChild }) => (
+                        <WindowScroller>
+                            {({ height, scrollTop, isScrolling, onChildScroll }) => (
+                                <AutoSizer disableHeight>
+                                    {({ width }) => {
+                                        if (this.mostRecentWidth && this.mostRecentWidth !== width) {
+                                            setTimeout(() => {
+                                                this._calculateRowHeights();
+                                            }, 0);
+                                        }
 
-        return (
-            <InfiniteLoader
-                isRowLoaded={index => !hasMore || index < messages.length}
-                loadMoreRows={this.loadMore}
-                rowCount={messages.length}
-            >
-                {({ onRowsRendered, registerChild }) => (
-                    <WindowScroller>
-                        {({ height, scrollTop, isScrolling, onChildScroll }) => (
-                            <AutoSizer disableHeight>
-                                {({ width }) => {
-                                    if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-                                        setTimeout(() => {
-                                            this._calculateRowHeights();
-                                        }, 0);
-                                    }
+                                        this.mostRecentWidth = width;
 
-                                    this.mostRecentWidth = width;
-
-                                    return (
-                                        <List
-                                            style={{ outline: 'none' }}
-                                            autoHeight
-                                            ref={ref => {
-                                                this._list = ref;
-                                                registerChild(ref);
-                                            }}
-                                            deferredMeasurementCache={this._cache}
-                                            height={height}
-                                            onRowsRendered={onRowsRendered}
-                                            overscanRowCount={10}
-                                            rowCount={messages.length}
-                                            rowHeight={this._cache.rowHeight}
-                                            rowRenderer={this._rowRenderer}
-                                            width={width}
-                                            scrollTop={scrollTop}
-                                            isScrolling={isScrolling}
-                                            onScroll={onChildScroll}
-                                        />
-                                    );
-                                }}
-                            </AutoSizer>
-                        )}
-                    </WindowScroller>
-                )}
-            </InfiniteLoader>
-        );
+                                        return (
+                                            <List
+                                                style={{ outline: 'none' }}
+                                                autoHeight
+                                                ref={ref => {
+                                                    this._list = ref;
+                                                    registerChild(ref);
+                                                }}
+                                                deferredMeasurementCache={this._cache}
+                                                height={height}
+                                                onRowsRendered={onRowsRendered}
+                                                overscanRowCount={10}
+                                                rowCount={messages.length}
+                                                rowHeight={this._cache.rowHeight}
+                                                rowRenderer={this._rowRenderer}
+                                                width={width}
+                                                scrollTop={scrollTop}
+                                                isScrolling={isScrolling}
+                                                onScroll={onChildScroll}
+                                            />
+                                        );
+                                    }}
+                                </AutoSizer>
+                            )}
+                        </WindowScroller>
+                    )}
+                </InfiniteLoader>
+            );
+        }
     }
 }
 
