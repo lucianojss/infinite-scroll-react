@@ -53,7 +53,6 @@ const MessageCardPlaceHolder = props => {
                 <div className={classes.textPlaceHolder} />
                 <div className={classes.textPlaceHolder} />
                 <div className={classes.textPlaceHolder} />
-                <div className={classes.textPlaceHolder} />
             </CardContent>
         </Card>
     );

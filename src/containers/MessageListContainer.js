@@ -4,7 +4,6 @@ import { getMessagesList, deleteMessage } from '../actions/messageListAction';
 import { withStyles } from '@material-ui/core/styles';
 import MessageList from '../components/MessageList';
 import ErrorMessage from '../components/ErrorMessage';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     container: {
@@ -14,9 +13,6 @@ const styles = theme => ({
         [theme.breakpoints.up('sm')]: {
             paddingTop: 80
         }
-    },
-    circularProgress: {
-        textAlign: 'center'
     }
 });
 
@@ -55,11 +51,6 @@ class MessageListContainer extends PureComponent {
                     onDismiss={this.deleteMessage}
                     threshold={5}
                 />
-                {loading && (
-                    <div className={classes.circularProgress}>
-                        <CircularProgress color="secondary" />
-                    </div>
-                )}
             </main>
         );
     }

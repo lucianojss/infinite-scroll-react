@@ -4,8 +4,18 @@ import PropTypes from 'prop-types';
 import { AutoSizer, List, InfiniteLoader, CellMeasurer, CellMeasurerCache, WindowScroller } from 'react-virtualized';
 import MessageCard from './MessageCard';
 import MessageCardPlaceholder from './MessageCardPlaceholder';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import SwipeOut from './SwipeOut';
+import FillScreen from './FillScreen';
+
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = () => ({
+    circularProgress: {
+        textAlign: 'center',
+        padding: 10
+    }
+});
 
 class MessageList extends PureComponent {
     constructor(props) {
@@ -50,7 +60,7 @@ class MessageList extends PureComponent {
                 key={key}
                 parent={parent}
                 rowIndex={index}
-                mostRecentWidth={this.mostRecentWidth}
+                mostRecentWidth={this._mostRecentWidth}
             >
                 <div style={style}>{content}</div>
             </CellMeasurer>
@@ -63,56 +73,67 @@ class MessageList extends PureComponent {
     }
 
     render() {
-        const { messages, hasMore, loading } = this.props;
+        const { messages, hasMore, loading, classes } = this.props;
         if (loading && messages.length === 0) {
-            return <MessageCardPlaceholder />;
+            return (
+                <FillScreen>
+                    <MessageCardPlaceholder />
+                </FillScreen>
+            );
         } else {
             return (
-                <InfiniteLoader
-                    isRowLoaded={index => !hasMore || index < messages.length}
-                    loadMoreRows={this.loadMore}
-                    rowCount={messages.length}
-                >
-                    {({ onRowsRendered, registerChild }) => (
-                        <WindowScroller>
-                            {({ height, scrollTop, isScrolling, onChildScroll }) => (
-                                <AutoSizer disableHeight>
-                                    {({ width }) => {
-                                        if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-                                            setTimeout(() => {
-                                                this._calculateRowHeights();
-                                            }, 0);
-                                        }
+                <section>
+                    <InfiniteLoader
+                        isRowLoaded={index => !hasMore || index < messages.length}
+                        loadMoreRows={this.loadMore}
+                        rowCount={messages.length}
+                    >
+                        {({ onRowsRendered, registerChild }) => (
+                            <WindowScroller>
+                                {({ height, scrollTop, isScrolling, onChildScroll }) => (
+                                    <AutoSizer disableHeight>
+                                        {({ width }) => {
+                                            if (this._mostRecentWidth && this._mostRecentWidth !== width) {
+                                                setTimeout(() => {
+                                                    this._calculateRowHeights();
+                                                }, 0);
+                                            }
 
-                                        this.mostRecentWidth = width;
+                                            this._mostRecentWidth = width;
 
-                                        return (
-                                            <List
-                                                style={{ outline: 'none' }}
-                                                autoHeight
-                                                ref={ref => {
-                                                    this._list = ref;
-                                                    registerChild(ref);
-                                                }}
-                                                deferredMeasurementCache={this._cache}
-                                                height={height}
-                                                onRowsRendered={onRowsRendered}
-                                                overscanRowCount={10}
-                                                rowCount={messages.length}
-                                                rowHeight={this._cache.rowHeight}
-                                                rowRenderer={this._rowRenderer}
-                                                width={width}
-                                                scrollTop={scrollTop}
-                                                isScrolling={isScrolling}
-                                                onScroll={onChildScroll}
-                                            />
-                                        );
-                                    }}
-                                </AutoSizer>
-                            )}
-                        </WindowScroller>
+                                            return (
+                                                <List
+                                                    style={{ outline: 'none' }}
+                                                    autoHeight
+                                                    ref={ref => {
+                                                        this._list = ref;
+                                                        registerChild(ref);
+                                                    }}
+                                                    deferredMeasurementCache={this._cache}
+                                                    height={height}
+                                                    onRowsRendered={onRowsRendered}
+                                                    overscanRowCount={10}
+                                                    rowCount={messages.length}
+                                                    rowHeight={this._cache.rowHeight}
+                                                    rowRenderer={this._rowRenderer}
+                                                    width={width}
+                                                    scrollTop={scrollTop}
+                                                    isScrolling={isScrolling}
+                                                    onScroll={onChildScroll}
+                                                />
+                                            );
+                                        }}
+                                    </AutoSizer>
+                                )}
+                            </WindowScroller>
+                        )}
+                    </InfiniteLoader>
+                    {loading && (
+                        <div className={classes.circularProgress}>
+                            <CircularProgress color="secondary" />
+                        </div>
                     )}
-                </InfiniteLoader>
+                </section>
             );
         }
     }
@@ -131,4 +152,4 @@ MessageList.propTypes = {
     threshold: PropTypes.number
 };
 
-export default MessageList;
+export default withStyles(styles)(MessageList);
