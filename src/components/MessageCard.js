@@ -31,7 +31,14 @@ const MessageCard = props => {
         <Card className={classes.card}>
             <CardHeader
                 className={classes.CardHeader}
-                avatar={<Avatar className={classes.avatar} aria-label={author.name} src={author.photoUrl} />}
+                avatar={
+                    <Avatar
+                        className={classes.avatar}
+                        aria-label={author.name}
+                        alt={author.name}
+                        src={author.photoUrl}
+                    />
+                }
                 title={<Typography variant="subtitle2">{author.name}</Typography>}
                 subheader={
                     <Typography variant="caption">
