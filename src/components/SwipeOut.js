@@ -5,8 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = () => ({
     dragOver: {
-        transition: 'transform ease 0.5s',
-        touchAction: 'manipulation'
+        transition: 'transform ease 0.5s'
     }
 });
 
