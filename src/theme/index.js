@@ -1,6 +1,12 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { pink, deepPurple, grey } from '@material-ui/core/colors';
-import 'typeface-roboto';
+import WebFont from 'webfontloader';
+
+WebFont.load({
+    google: {
+        families: ['Roboto:300,400,500']
+    }
+});
 
 export default createMuiTheme({
     palette: {

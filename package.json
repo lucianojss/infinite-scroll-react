@@ -14,7 +14,7 @@
         "react-virtualized": "^9.21.0",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
-        "typeface-roboto": "0.0.54",
+        "webfontloader": "^1.6.28",
         "whatwg-fetch": "^3.0.0"
     },
     "scripts": {
@@ -22,7 +22,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "precommit": "pretty-quick --staged"
+        "precommit": "pretty-quick --staged",
+        "bundle": "react-scripts build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O"
     },
     "eslintConfig": {
         "extends": [
