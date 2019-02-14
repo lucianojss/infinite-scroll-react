@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MessageListContainer from './containers/MessageListContainer.js';
-import TopAppBarContainer from './containers/TopAppBarContainer';
+import TopAppBar from './components/TopAppBar';
+import AppShellPlaceHolder from './components/AppShellPlaceHolder';
 
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
@@ -19,7 +20,9 @@ class App extends PureComponent {
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
                 <Provider store={configureStore()}>
-                    <TopAppBarContainer />
+                    <Suspense fallback={<AppShellPlaceHolder />}>
+                        <TopAppBar />
+                    </Suspense>
                     <MessageListContainer />
                 </Provider>
             </MuiThemeProvider>

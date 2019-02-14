@@ -1,0 +1,10 @@
+{
+    "title": "Infinite Scrolling Message List",
+    "topBar": {
+        "title": "Messages"
+    },
+    "error": {
+        "unspecific": "Something went wrong.",
+        "404": "The page was not found."
+    }
+}
